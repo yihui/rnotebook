@@ -1,0 +1,24 @@
+language: c
+
+env:
+  matrix:
+    - R_PKG="$(basename $TRAVIS_REPO_SLUG)"
+  global:
+    secure: XquDBio7j6j91CqT+8/wY3XHFWulF0SSeGnf/Uv2mvks2P1V+9n21lRmIImjZJDriH6NV5mSFsbiZcf/piilcSlOdp5pTJMa9wYj4yXjiaLl9Se63y19KgMIOpYI/ooHB1Ef/BO5uOYMSCoxYukllqzMFTgVGSh+ctdmsozF3wk=
+
+install:
+  - sudo apt-add-repository -y "deb http://cran.rstudio.com/bin/linux/ubuntu `lsb_release -cs`/"
+  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+  - sudo apt-add-repository -y ppa:marutter/c2d4u
+  - sudo apt-get update
+  - sudo apt-get install r-base-core r-cran-devtools r-cran-jsonlite r-cran-knitr
+  - wget -q -O - http://yihui.name/xran/r-config | bash
+  - Rscript -e "devtools::install_deps()"
+
+script:
+  - cd ..; rm -f *.tar.gz; R CMD build $R_PKG
+  - _R_CHECK_FORCE_SUGGESTS_=false R CMD check $R_PKG*.tar.gz --no-manual
+  - cd $R_PKG
+
+after_success:
+  - (wget -q -O - http://yihui.name/xran/r-xran | bash)
