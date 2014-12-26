@@ -35,13 +35,11 @@ lint_nb = function(file) {
         stop('The source of the code chunk #', i, " must be a list with names 'options' and 'code'")
       if (length(b$src$options) != 1 || !is.character(b$src$options))
         stop('The chunk options for the code chunk #', i, ' must be a character vector of length 1')
-      b$src$options = jsonlite::unbox(b$src$options)
       if (!is.character(b$src$code))
         stop('The source code of the chunk #', i, ' must be a character vector')
       if (!is.null(b$out) && !is.character(b$out))
         stop('The output of the chunk #', i, ' must be either NULL or a character vector')
     }
-    b$type = jsonlite::unbox(b$type)
     body[[i]] = b
   }
 
