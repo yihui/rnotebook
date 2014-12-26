@@ -45,10 +45,54 @@ refresh = function(file) {
 
 #' Export a notebook to Markdown
 #'
-#' Export a notebook file (\file{.Rnb}) to Markdown (\file{.md}).
+#' Export a notebook file to Markdown (\file{.md}) or R Markdown (\file{.Rmd}).
 #' @inheritParams refresh
-export = function(file) {
+#' @param output the output filename; by default, the filename is the input
+#'   filename \code{file} with the file extension replaced by \file{.md}
+#'   (\code{raw = FALSE}) or \file{.Rmd} (\code{raw = TRUE})
+#' @param raw whether to export the notebook as raw R Markdown or only Markdown
+#'   output; for the latter case, the notebook must have been compiled via
+#'   \code{\link{refresh}()} beforehand
+#' @return The output filename is returned invisibly.
+#' @export
+#' @examples
+#' f = rnotebook::newnb()
+#' rnotebook::refresh(f)  # compile the notebook
+#' file.show(f)
+#'
+#' f1 = rnotebook::export(f)  # export to markdown
+#' file.edit(f1)
+#'
+#' f2 = rnotebook::export(f, raw = TRUE)  # export to R Markdown
+#' file.edit(f2)
+#'
+#' unlink(c(f, f1, f2))
+export = function(file, output, raw = FALSE) {
+  if (missing(output))
+    output = sub('[.][[:alnum:]]+$', if (raw) '.Rmd' else '.md', file)
 
+  json = lint_nb(file)
+  meta = json$frontmatter
+  meta = c('---', to_yaml(meta), '---', '')
+
+  out = lapply(json$body, function(b) {
+    o = if (b$type == 'code') {
+      if (raw) {
+        opt = gsub('^\\s*|\\s*$', '', b$src$options)
+        if (opt != '') opt = paste0(' ', opt)
+        c(sprintf('```{r%s}', opt), b$src$code, '```')
+      } else b$out
+    } else {
+      # for text chunks, b$out might be NULL, which indicates no inline code
+      if (raw || is.null(b$out)) b$src else b$out
+    }
+    c(o, '')
+  })
+  out = to_utf8(c(meta, unlist(out)))
+  out = head(out, -1)  # remove the last empty line
+
+  writeLines(out, output, useBytes = TRUE)
+  invisible(output)
 }
 
 #' Create a new notebook file

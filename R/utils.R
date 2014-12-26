@@ -59,3 +59,26 @@ to_utf8 = function(text) {
   if (any(is.na(text))) stop('Failed to convert the character string to UTF-8')
   text
 }
+
+# convert a list to YAML (the list must be named)
+to_yaml = function(x, indent = 0) {
+  space = if (indent > 0) paste(rep(' ', indent), collapse = '') else ''
+  if (is.list(x)) {
+    if (length(x) == 0) {
+      if (indent == 0) return()
+      stop('The list contains an empty sub-list')
+    }
+    items = paste(names(x), unlist(lapply(x, to_yaml, indent = indent + 2)), sep = ': ')
+    if (indent > 0) {
+      items = paste0(space, items)
+      items[1] = paste0('\n', items[1])
+    }
+    return(paste(items, collapse = '\n'))
+  }
+  if (is.null(x)) return('null')
+  if (isTRUE(x)) return('yes')
+  if (identical(x, FALSE)) return('no')
+  if (length(x) == 1) return(as.character(x))
+  items = paste0(space, '- ', x, collapse = '\n')
+  paste0('\n', items)
+}
