@@ -6,7 +6,7 @@ Traditional dynamic documents based on **knitr** are normally compiled to output
 
 This package tries to define a JSON-based format for dynamic documents in R. There is no formal definition for an "R Notebook", and we use this term here because what we did in this package is similar to IPython notebooks, which is also based on JSON.
 
-The R Notebook in this package is a JSON file, which is basically a JavaScript object with meta information, code chunks, and text chunks. Here is an example (created from `rnotebook::create()`):
+The R Notebook in this package is a JSON file, which is basically a JavaScript object with meta information, code chunks, and text chunks. Here is an example (created from `rnotebook::newnb()`):
 
 ```json
 {

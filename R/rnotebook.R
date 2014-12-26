@@ -114,7 +114,7 @@ export = function(file, output, raw = FALSE) {
 #'   \code{rnotebook}). The metadata and content are written to the file as a
 #'   JSON string.
 #' @export
-create = function(
+newnb = function(
   file = tempfile('rnotebook', '.', '.Rnb'),
   title = getOption('rnotebook.title', 'An R Notebook'),
   author = getOption('rnotebook.author'),
