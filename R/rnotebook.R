@@ -5,6 +5,10 @@
 #' @return The notebook filename (invisibly). The content of the notebook is
 #'   updated as a side effect.
 #' @export
+#' @examples
+#' f = rnotebook::newnb()
+#' rnotebook::refresh(f)  # compile the notebook
+#' file.show(f)
 refresh = function(file) {
   json = lint_nb(file)
   body = json$body
@@ -114,6 +118,18 @@ export = function(file, output, raw = FALSE) {
 #'   \code{rnotebook}). The metadata and content are written to the file as a
 #'   JSON string.
 #' @export
+#' @examples # !formatR
+#' f = rnotebook::newnb()
+#' rnotebook::refresh(f)  # compile the notebook
+#' file.show(f)
+#'
+#' f2 = rnotebook::newnb('foo-test.Rnb', author = 'R. A. Fisher', body = list(
+#'   list(type = 'text', src = 'Hello **world**.'),
+#'   list(type = 'code', src = list(
+#'     options = '', code = 'fisher.test(matrix(c(3, 1, 1, 3), 2))'
+#'   ))
+#' ))
+#' file.show(f2)
 newnb = function(
   file = tempfile('rnotebook', '.', '.Rnb'),
   title = getOption('rnotebook.title', 'An R Notebook'),
