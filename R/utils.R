@@ -49,9 +49,15 @@ lint_nb = function(file) {
   data
 }
 
+# write a JSON list to file with UTF-8 and a few custom options
 write_json = function(json, file) {
   json = jsonlite::toJSON(json, null = 'null', pretty = pretty_json(), auto_unbox = TRUE)
-  json = iconv(json, to = 'UTF-8')
-  if (any(is.na(json))) stop('Failed to convert the JSON string to UTF-8')
+  json = to_utf8(json)
   writeLines(json, file, useBytes = TRUE)
+}
+
+to_utf8 = function(text) {
+  text = iconv(text, to = 'UTF-8')
+  if (any(is.na(text))) stop('Failed to convert the character string to UTF-8')
+  text
 }
