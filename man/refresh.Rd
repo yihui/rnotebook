@@ -15,3 +15,8 @@ The notebook filename (invisibly). The content of the notebook is
 \description{
 Parse and recompile a notebook file through \pkg{knitr}.
 }
+\examples{
+f = rnotebook::newnb()
+rnotebook::refresh(f)  # compile the notebook
+file.show(f)
+}
