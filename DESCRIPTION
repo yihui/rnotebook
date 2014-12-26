@@ -1,0 +1,22 @@
+Package: rnotebook
+Type: Package
+Title: An R Notebook Based on JSON, Markdown, and knitr
+Version: 0.0.0
+Date: 2014-10-30
+Author: Yihui Xie
+Maintainer: Yihui Xie <xie@yihui.name>
+Description: Unifies the source document and output document into one single
+    notebook document (with the filename extension .Rnb), which is based on
+    JSON. The text chunks are written with Markdown. The compilation is through
+    the knitr package. The notebook can be exported to Markdown, which can be
+    converted to other document formats (HTML and PDF, etc) via tools like
+    Pandoc.
+Imports:
+    knitr (>= 1.8),
+    jsonlite (>= 0.9.14)
+Suggests:
+    rmarkdown,
+    servr
+License: MIT + file LICENSE
+URL: https://github.com/yihui/rnotebook
+BugReports: https://github.com/yihui/rnotebook/issues
