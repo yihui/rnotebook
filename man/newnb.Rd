@@ -40,10 +40,16 @@ rnotebook::refresh(f)  # compile the notebook
 file.show(f)
 
 f2 = rnotebook::newnb('foo-test.Rnb', author = 'R. A. Fisher', body = list(
-  list(type = 'text', src = 'Hello **world**.'),
+  list(type = 'text', src = 'Hello **world**.', out = NULL),
   list(type = 'code', src = list(
     options = '', code = 'fisher.test(matrix(c(3, 1, 1, 3), 2))'
-  ))
+  ), out = '')
 ))
 file.show(f2)
+rnotebook::refresh(f2)
+
+# serve notebooks using the servr package (click the .Rnb filenames)
+if (!requireNamespace('servr') || packageVersion('servr') < '0.1.10')
+  install.packages('servr', repos = 'http://yihui.name/xran')
+if (interactive()) servr::notebook()
 }
