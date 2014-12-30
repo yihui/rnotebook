@@ -1,7 +1,7 @@
 Package: rnotebook
 Type: Package
 Title: An R Notebook Based on JSON, Markdown, and knitr
-Version: 0.0.1
+Version: 0.0.2
 Date: 2014-10-30
 Author: Yihui Xie
 Maintainer: Yihui Xie <xie@yihui.name>
