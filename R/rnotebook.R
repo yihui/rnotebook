@@ -23,10 +23,10 @@
 #' file.show(f)
 #'
 #' f2 = rnotebook::newnb('foo-test.Rnb', author = 'R. A. Fisher', body = list(
-#'   list(type = 'text', src = 'Hello **world**.'),
+#'   list(type = 'text', src = 'Hello **world**.', out = NULL),
 #'   list(type = 'code', src = list(
 #'     options = '', code = 'fisher.test(matrix(c(3, 1, 1, 3), 2))'
-#'   ))
+#'   ), out = '')
 #' ))
 #' file.show(f2)
 newnb = function(
