@@ -29,6 +29,12 @@
 #'   ), out = '')
 #' ))
 #' file.show(f2)
+#' rnotebook::refresh(f2)
+#'
+#' # serve notebooks using the servr package (click the .Rnb filenames)
+#' if (!requireNamespace('servr') || packageVersion('servr') < '0.1.10')
+#'   install.packages('servr', repos = 'http://yihui.name/xran')
+#' if (interactive()) servr::notebook()
 newnb = function(
   file = tempfile('rnotebook', '.', '.Rnb'),
   title = getOption('rnotebook.title', 'An R Notebook'),
